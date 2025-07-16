@@ -1,0 +1,131 @@
+$primary: #1677ff;
+$primary-dark: #164392;
+$accent: #f6a700;
+$bg: #f3f5fa;
+$text: #23282f;
+$white: #fff;
+
+body {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background: $bg;
+  color: $text;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $white;
+  padding: 0.7rem 2.5rem;
+  box-shadow: 0 2px 8px rgba($primary, 0.06);
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $primary-dark;
+
+    .logo-highlight {
+      color: $primary;
+    }
+  }
+
+  .navbar {
+    display: flex;
+    gap: 1.7rem;
+
+    .nav-link {
+      text-decoration: none;
+      color: $primary-dark;
+      font-weight: 500;
+      font-size: 1.07rem;
+      position: relative;
+      transition: color 0.2s;
+
+      &:hover, &:focus {
+        color: $primary;
+      }
+    }
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+    min-width: 110px;
+    justify-content: flex-end;
+
+    .login-btn {
+      background: $primary;
+      color: $white;
+      border: none;
+      padding: 0.48rem 1.2rem;
+      border-radius: 22px;
+      font-weight: 500;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba($primary, 0.09);
+
+      &:hover, &:focus {
+        background: $accent;
+        color: $text;
+      }
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      .user-name {
+        font-weight: 600;
+        color: $primary;
+      }
+      .user-role {
+        font-size: 0.72rem;
+        color: $primary-dark;
+        opacity: 0.82;
+        margin-top: -0.15rem;
+      }
+    }
+  }
+}
+
+.main-content {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $bg;
+  min-height: 60vh;
+
+  .main-wrapper {
+    background: $white;
+    border-radius: 1.3rem;
+    padding: 2.6rem 2.5rem 2.2rem 2.5rem;
+    box-shadow: 0 8px 30px rgba($primary, 0.07), 0 1.5px 4px rgba($primary-dark, 0.03);
+    max-width: 560px;
+    width: 98vw;
+    margin: 3rem auto;
+    text-align: center;
+
+    h1 {
+      color: $primary-dark;
+      font-size: 2.3rem;
+      margin-bottom: 0.6rem;
+    }
+    p {
+      color: $text;
+      font-size: 1.16rem;
+    }
+  }
+}
+
+.footer {
+  height: 58px;
+  background: $white;
+  border-top: 1px solid #e7ebf3;
+  margin-top: auto;
+}

@@ -1,0 +1,45 @@
+// layout.templ
+package views
+
+templ BaseLayout(title string, loggedIn bool, userName string, userRole string, mainContent templ.Component) {
+    <html lang="de">
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <title>AzubiTool - Landingpage</title>
+            <link rel="stylesheet" href="/static/style.css" />
+            <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        </head>
+        <body>
+            <header class="header">
+                <div class="logo">
+                    <span>Azubi<span class="logo-highlight">Tool</span></span>
+                </div>
+                <nav class="navbar">
+                    <a href="#" class="nav-link">Home</a>
+                    <a href="#" class="nav-link">Tools</a>
+                    <a href="#" class="nav-link">Dokumente</a>
+                    <a href="#" class="nav-link">Kontakt</a>
+                </nav>
+                <div class="user">
+                    if !loggedIn {
+                        <a href="/login" class="login-btn">Login</a>
+                    } else {
+                        <div class="user-info">
+                            <span class="user-name">{userName}</span>
+                            <span class="user-role">{userRole}</span>
+                        </div>
+                    }
+                </div>
+            </header>
+            <main class="main-content">
+                <div class="main-wrapper">
+                    <h1>Willkommen beim AzubiTool</h1>
+                    <p>Hier findest du alle wichtigen Tools, die dir den Arbeitsalltag erleichtern!</p>
+                    <!-- Weitere Inhalte oder Call-to-Actions hier einbauen -->
+                </div>
+            </main>
+            <footer class="footer"></footer>
+        </body>
+    </html>
+}

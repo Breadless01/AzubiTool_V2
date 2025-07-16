@@ -1,0 +1,10 @@
+{
+  "name": "azubitool-assets",
+  "scripts": {
+    "build:sass": "sass assets/sass:assets/static --no-source-map --style=compressed",
+    "watch:sass": "sass assets/sass:assets/static --no-source-map --watch"
+  },
+  "devDependencies": {
+    "sass": "^1.75.0"
+  }
+}

@@ -1,0 +1,129 @@
+body {
+  font-family: "Segoe UI", "Arial", sans-serif;
+  background: #f3f5fa;
+  color: #23282f;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: .7rem 2.5rem;
+  box-shadow: 0 2px 8px rgba(22, 119, 255, .06)
+}
+
+.header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #164392
+}
+
+.header .logo .logo-highlight {
+  color: #1677ff
+}
+
+.header .navbar {
+  display: flex;
+  gap: 1.7rem
+}
+
+.header .navbar .nav-link {
+  text-decoration: none;
+  color: #164392;
+  font-weight: 500;
+  font-size: 1.07rem;
+  position: relative;
+  transition: color .2s
+}
+
+.header .navbar .nav-link:hover,
+.header .navbar .nav-link:focus {
+  color: #1677ff
+}
+
+.header .user {
+  display: flex;
+  align-items: center;
+  min-width: 110px;
+  justify-content: flex-end
+}
+
+.header .user .login-btn {
+  background: #1677ff;
+  color: #fff;
+  border: none;
+  padding: .48rem 1.2rem;
+  border-radius: 22px;
+  font-weight: 500;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background .2s;
+  box-shadow: 0 2px 8px rgba(22, 119, 255, .09)
+}
+
+.header .user .login-btn:hover,
+.header .user .login-btn:focus {
+  background: #f6a700;
+  color: #23282f
+}
+
+.header .user .user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end
+}
+
+.header .user .user-info .user-name {
+  font-weight: 600;
+  color: #1677ff
+}
+
+.header .user .user-info .user-role {
+  font-size: .72rem;
+  color: #164392;
+  opacity: .82;
+  margin-top: -0.15rem
+}
+
+.main-content {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f5fa;
+  min-height: 60vh
+}
+
+.main-content .main-wrapper {
+  background: #fff;
+  border-radius: 1.3rem;
+  padding: 2.6rem 2.5rem 2.2rem 2.5rem;
+  box-shadow: 0 8px 30px rgba(22, 119, 255, .07), 0 1.5px 4px rgba(22, 67, 146, .03);
+  max-width: 560px;
+  width: 98vw;
+  margin: 3rem auto;
+  text-align: center
+}
+
+.main-content .main-wrapper h1 {
+  color: #164392;
+  font-size: 2.3rem;
+  margin-bottom: .6rem
+}
+
+.main-content .main-wrapper p {
+  color: #23282f;
+  font-size: 1.16rem
+}
+
+.footer {
+  height: 58px;
+  background: #fff;
+  border-top: 1px solid #e7ebf3;
+  margin-top: auto
+}

@@ -1,8 +1,19 @@
 package main
 
-// main.go – Einstiegspunkt für den Webserver.
-// Hier werden die Abhängigkeiten verdrahtet und der Server gestartet.
+import (
+	"AzubiTool/internal/web"
+	"log"
+	"net/http"
+)
 
 func main() {
-    // TODO: Load config, setup dependencies, start HTTP server
+
+	handler := &web.Handler{}
+	router := web.NewRouter(handler)
+
+	port := ":8080"
+	log.Printf("Starte Webserver auf http://localhost%s ...", port)
+	if err := http.ListenAndServe(port, router); err != nil {
+		log.Fatalf("Fehler beim Starten des Servers: %v", err)
+	}
 }
