@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-
+	web.InitSessionStore()
 	handler := &web.Handler{}
 	router := web.NewRouter(handler)
 

@@ -1,0 +1,6 @@
+// login.templ
+package views
+
+templ LoginPage(title string, loggedIn bool, userName string, userRole string, errorMsg string) {
+    @BaseLayout(title, loggedIn, userName, userRole, LoginFormContent(errorMsg))
+}

@@ -129,3 +129,69 @@ body {
   border-top: 1px solid #e7ebf3;
   margin-top: auto;
 }
+
+.main-wrapper.login {
+  max-width: 430px;
+  min-width: 300px;
+  width: 100%;
+  margin: 3rem auto;
+  padding: 2.5rem 2.2rem 2rem 2.2rem;
+  background: $white;
+  border-radius: 1.3rem;
+  box-shadow: 0 8px 30px rgba($primary, 0.07), 0 1.5px 4px rgba($primary-dark, 0.03);
+
+  .login-title {
+    font-size: 2rem;
+    margin-bottom: 1.4rem;
+    color: $primary-dark;
+    letter-spacing: -0.5px;
+  }
+
+  .error-msg {
+    background: #ffe6e6;
+    color: #b10000;
+    padding: 0.7rem 1rem;
+    border-radius: 0.8rem;
+    font-size: 1.02rem;
+    margin-bottom: 1.2rem;
+    text-align: center;
+    border: 1px solid #ffd6d6;
+    font-weight: 500;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    input {
+      font-size: 1.05rem;
+      padding: 0.62rem 1.1rem;
+      border-radius: 0.75rem;
+      border: 1.2px solid #c1cbe6;
+      outline: none;
+      background: #f8faff;
+      transition: border 0.15s;
+      &:focus {
+        border-color: $primary;
+        background: $white;
+      }
+    }
+    button {
+      margin-top: 0.7rem;
+      background: $primary;
+      color: $white;
+      border: none;
+      border-radius: 0.8rem;
+      font-size: 1.15rem;
+      padding: 0.7rem 0.8rem;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba($primary, 0.07);
+      transition: background 0.18s, color 0.18s;
+      cursor: pointer;
+      &:hover, &:focus {
+        background: $accent;
+        color: $text;
+      }
+    }
+  }
+}

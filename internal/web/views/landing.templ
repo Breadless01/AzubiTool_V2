@@ -1,9 +1,6 @@
 // landing.templ
 package views
 
-// import "AzubiTool/internal/web/views/layout"
-// import "AzubiTool/internal/web/views/landingContent"
-
 templ LandingPage(title string, loggedIn bool, userName string, userRole string) {
     @BaseLayout(title, loggedIn, userName, userRole, LandingContent())
 }

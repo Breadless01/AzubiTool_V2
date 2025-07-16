@@ -72,7 +72,15 @@ func BaseLayout(title string, loggedIn bool, userName string, userRole string, m
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></header><main class=\"main-content\"><div class=\"main-wrapper\"><h1>Willkommen beim AzubiTool</h1><p>Hier findest du alle wichtigen Tools, die dir den Arbeitsalltag erleichtern!</p><!-- Weitere Inhalte oder Call-to-Actions hier einbauen --></div></main><footer class=\"footer\"></footer></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div></header><main class=\"main-content\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = mainContent.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</main><footer class=\"footer\"></footer></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,0 +1,16 @@
+// login_form.templ
+package views
+
+templ LoginFormContent(errorMsg string) {
+    <div class="main-wrapper login">
+        <h2 class="login-title">Login</h2>
+        if errorMsg != "" {
+            <div class="error-msg">{errorMsg}</div>
+        }
+        <form method="post" action="/login" autocomplete="on">
+            <input type="text" name="username" placeholder="Benutzername" autocomplete="username" required />
+            <input type="password" name="password" placeholder="Passwort" autocomplete="current-password" required />
+            <button type="submit">Login</button>
+        </form>
+    </div>
+}
