@@ -1,6 +1,6 @@
 // landing.templ
 package views
 
-templ LandingPage(title string, loggedIn bool, userName string, userRole string) {
-    @BaseLayout(title, loggedIn, userName, userRole, LandingContent(userName))
+templ LandingPage(title string) {
+    @BaseLayout(title, LandingContent())
 }

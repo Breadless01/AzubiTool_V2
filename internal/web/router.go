@@ -6,7 +6,8 @@ import (
 
 func NewRouter(handler *Handler) http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/login", handler.LoginPage)
+	mux.Handle("/login", UserSessionMiddleware(http.HandlerFunc(handler.LoginPage)))
+	mux.Handle("/logout", UserSessionMiddleware(http.HandlerFunc(handler.Logout)))
 	mux.Handle("/", UserSessionMiddleware(http.HandlerFunc(handler.LandingPage)))
 	mux.Handle("/transfer", UserSessionMiddleware(http.HandlerFunc(handler.TransferPage)))
 

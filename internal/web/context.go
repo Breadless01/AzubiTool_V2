@@ -10,7 +10,7 @@ import (
 
 type ctxKey string
 
-const userCtxKey ctxKey = "currentUser"
+const userCtxKey ctxKey = "user"
 
 func SetCurrentUser(ctx context.Context, user *domain.User) context.Context {
 	return context.WithValue(ctx, userCtxKey, user)
@@ -28,10 +28,13 @@ func UserSessionMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		sess, _ := SessionStore.Get(r, "session")
 		var user *domain.User
+		var loggedIn bool
 		if u, ok := sess.Values["user"].(*domain.User); ok {
 			user = u
+			loggedIn = sess.Values["loggedIn"].(bool)
 		}
 		ctx := SetCurrentUser(r.Context(), user)
+		ctx = context.WithValue(ctx, "loggedIn", loggedIn)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
