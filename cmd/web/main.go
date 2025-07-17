@@ -19,10 +19,12 @@ func main() {
 		cfg.LDAP_BASE_DN,
 		cfg.LDAP_USER_LOGIN_ATTR,
 	)
+	bcsApi := adapters.NewBcsAdapter(cfg.BCS_ENDPOINT_URL)
 
 	web.InitSessionStore()
 	handler := &web.Handler{
 		AuthService: ldapAuth,
+		BcsService:  bcsApi,
 	}
 	router := web.NewRouter(handler)
 

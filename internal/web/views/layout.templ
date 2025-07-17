@@ -6,18 +6,28 @@ templ BaseLayout(title string, loggedIn bool, userName string, userRole string, 
         <head>
             <meta charset="UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <title>AzubiTool - Landingpage</title>
+            <title>{title}</title>
             <link rel="stylesheet" href="/static/style.css" />
             <script src="https://unpkg.com/htmx.org@1.9.10"></script>
         </head>
         <body>
+            if ctx.Value("toast").(string) != "" {
+                <div class="toast">{ctx.Value("toast").(string)}</div>
+            }
             <header class="header">
                 <div class="logo">
                     <span>Azubi<span class="logo-highlight">Tool</span></span>
                 </div>
                 <nav class="navbar">
-                    <a href="#" class="nav-link">Home</a>
-                    <a href="#" class="nav-link">Tools</a>
+                    <a href="/" class="nav-link">Home</a>
+                    <div class="nav-dropdown">
+                        <button class="nav-link nav-dropdown-btn" tabindex="0">Tools ▾</button>
+                        <div class="nav-dropdown-menu">
+                            <a href="/transfer" class="dropdown-link">Blok</a>
+                            <!-- <a href="/tool2" class="dropdown-link">Noch ein Tool</a> -->
+                            <!-- Weitere Tools hier -->
+                        </div>
+                    </div>
                     <a href="#" class="nav-link">Dokumente</a>
                     <a href="#" class="nav-link">Kontakt</a>
                 </nav>

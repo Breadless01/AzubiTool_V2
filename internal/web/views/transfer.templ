@@ -1,0 +1,6 @@
+// bcs.templ
+package views
+
+templ TransferPage(title string, loggedIn bool, userName, userRole, oid, errMsg string) {
+    @BaseLayout(title, loggedIn, userName, userRole, TransferContent(oid, errMsg))
+}

@@ -4,6 +4,7 @@ import (
 	"AzubiTool/internal/domain"
 	"AzubiTool/internal/ports"
 	"AzubiTool/internal/web/views"
+	"context"
 	"encoding/gob"
 	"net/http"
 )
@@ -14,26 +15,7 @@ func init() {
 
 type Handler struct {
 	AuthService ports.AuthService
-}
-
-func (h *Handler) LandingPage(w http.ResponseWriter, r *http.Request) {
-	// Später echte Authentifizierung, jetzt Dummy-User
-	user := GetCurrentUser(r.Context())
-	if user == nil {
-		views.LandingPage(
-			"AzubiTool",
-			false,
-			"",
-			"",
-		).Render(r.Context(), w)
-	} else {
-		views.LandingPage(
-			"AzubiTool",
-			true,
-			user.DisplayName,
-			user.Role,
-		).Render(r.Context(), w)
-	}
+	BcsService  ports.BcsService
 }
 
 func (h *Handler) LoginPage(w http.ResponseWriter, r *http.Request) {
@@ -52,9 +34,11 @@ func (h *Handler) LoginPage(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		user, err := h.AuthService.Authenticate(username, password)
-		if err == nil {
+		user, errUser := h.AuthService.Authenticate(username, password)
+		oid, errBcs := h.BcsService.GetOid(username, password)
+		if errUser == nil && errBcs == nil {
 			sess, _ := SessionStore.Get(r, "session")
+			user.Oid = oid
 			sess.Values["user"] = user
 			sess.Save(r, w)
 			http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -69,4 +53,33 @@ func (h *Handler) LoginPage(w http.ResponseWriter, r *http.Request) {
 			"Ungültiger Benutzername oder Passwort!").Render(r.Context(), w)
 		return
 	}
+}
+
+func (h *Handler) LandingPage(w http.ResponseWriter, r *http.Request) {
+	user := GetCurrentUser(r.Context())
+	if user == nil {
+		views.LandingPage(
+			"AzubiTool",
+			false,
+			"",
+			"",
+		).Render(r.Context(), w)
+	} else {
+		ctx := context.WithValue(r.Context(), "toast", "Dein Toast-Text!")
+		views.LandingPage(
+			"AzubiTool",
+			true,
+			user.DisplayName,
+			user.Role,
+		).Render(ctx, w)
+	}
+}
+
+func (h *Handler) TransferPage(w http.ResponseWriter, r *http.Request) {
+	user := GetCurrentUser(r.Context())
+	if user == nil {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+	views.TransferPage("BCS -> Blok", true, user.Username, user.Role, user.Oid, "").Render(r.Context(), w)
 }

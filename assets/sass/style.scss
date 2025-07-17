@@ -195,3 +195,110 @@ body {
     }
   }
 }
+
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+
+  .nav-dropdown-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    display: flex;
+    align-items: center;
+
+    &:after {
+      content: "";
+    }
+  }
+
+  .nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 2.2rem;
+    left: 0;
+    background: $white;
+    box-shadow: 0 4px 24px rgba($primary, 0.09);
+    border-radius: 0.7rem;
+    min-width: 160px;
+    z-index: 10;
+    padding: 0.4rem 0;
+    animation: fadeInDropdown 0.17s;
+  }
+
+  &:hover .nav-dropdown-menu,
+  &:focus-within .nav-dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-link {
+    display: block;
+    padding: 0.7rem 1.3rem;
+    color: $primary-dark;
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-size: 1.05rem;
+    transition: background 0.12s;
+    &:hover,
+    &:focus {
+      background: $accent;
+      color: $text;
+    }
+  }
+}
+
+@keyframes fadeInDropdown {
+  from { opacity: 0; transform: translateY(0.7rem);}
+  to   { opacity: 1; transform: translateY(0);}
+}
+
+.toast {
+  position: fixed;
+  bottom: 2.4rem;
+  right: 2.3rem;
+  min-width: 230px;
+  max-width: 380px;
+  padding: 1.05rem 2.1rem 1.05rem 2.7rem;
+  border-radius: 1.18rem;
+  box-shadow: 0 6px 26px rgba(44,44,100,0.16);
+  background: #232340;
+  color: #fff;
+  font-size: 1.11rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  opacity: 0.97;
+  z-index: 9999;
+  pointer-events: none;
+  animation: toastFadeIn 0.26s cubic-bezier(.3,1.5,.6,1) both;
+
+  svg {
+    flex-shrink: 0;
+    font-size: 1.36rem;
+    margin-left: -1.1rem;
+  }
+}
+
+@keyframes toastFadeIn {
+  from { opacity: 0; transform: translateY(1.3rem);}
+  to   { opacity: 0.97; transform: translateY(0);}
+}
+
+// Farbschemata
+.toast-success {
+  background: #20ba74;
+  color: #fff;
+}
+.toast-error {
+  background: #dc3545;
+  color: #fff;
+}
+.toast-info {
+  background: #2476cc;
+  color: #fff;
+}

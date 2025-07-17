@@ -1,0 +1,14 @@
+// bcs_data.templ
+package views
+
+templ TransferContent(oid string, errMsg string) {
+    <div class="main-wrapper">
+        <h1>BCS -> Blok</h1>
+        if errMsg != "" {
+            <div class="error-msg">{errMsg}</div>
+        } 
+        else {
+            {oid}
+        }
+    </div>
+}

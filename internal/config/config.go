@@ -8,7 +8,7 @@ import (
 
 type Config struct {
 	SESSION_KEY             string
-	ENDPOINT_URL            string
+	BCS_ENDPOINT_URL        string
 	TENANT_ID               string
 	SITE_ID                 string
 	DRIVE_ID                string
@@ -32,7 +32,7 @@ func LoadConfig() (*Config, error) {
 
 	cfg := &Config{
 		SESSION_KEY:             os.Getenv("SESSION_KEY"),
-		ENDPOINT_URL:            os.Getenv("ENDPOINT_URL"),
+		BCS_ENDPOINT_URL:        os.Getenv("BCS_ENDPOINT_URL"),
 		TENANT_ID:               os.Getenv("TENANT_ID"),
 		SITE_ID:                 os.Getenv("SITE_ID"),
 		DRIVE_ID:                os.Getenv("DRIVE_ID"),
