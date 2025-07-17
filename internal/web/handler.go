@@ -2,6 +2,7 @@ package web
 
 import (
 	"AzubiTool/internal/domain"
+	"AzubiTool/internal/ports"
 	"AzubiTool/internal/web/views"
 	"encoding/gob"
 	"net/http"
@@ -12,6 +13,7 @@ func init() {
 }
 
 type Handler struct {
+	AuthService ports.AuthService
 }
 
 func (h *Handler) LandingPage(w http.ResponseWriter, r *http.Request) {
@@ -50,14 +52,8 @@ func (h *Handler) LoginPage(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		if username == "admin" && password == "passwort" {
-			user := &domain.User{
-				Username:    username,
-				DisplayName: "Julius",
-				Email:       "julius@test.de",
-				Role:        "Software Entwickler",
-			}
-
+		user, err := h.AuthService.Authenticate(username, password)
+		if err == nil {
 			sess, _ := SessionStore.Get(r, "session")
 			sess.Values["user"] = user
 			sess.Save(r, w)

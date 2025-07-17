@@ -1,6 +1,6 @@
 package adapters
 
-import "yourproject/internal/ports"
+import "AzubiTool/internal/ports"
 
 // PlaywrightAdapter implementiert das WebAutomator-Interface.
 type PlaywrightAdapter struct{}

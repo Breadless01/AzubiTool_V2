@@ -1,9 +1,9 @@
 // landingContent.templ
 package views
 
-templ LandingContent() {
+templ LandingContent(userName string) {
     <div class="main-wrapper">
-        <h1>Willkommen beim AzubiTool</h1>
+        <h1>Willkommen beim AzubiTool {userName}</h1>
         <p>Hier findest du alle wichtigen Tools, die dir den Arbeitsalltag erleichtern!</p>
     </div>
 }
