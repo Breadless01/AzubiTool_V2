@@ -1,6 +1,6 @@
 // bcs.templ
 package views
 
-templ TransferPage(title, errMsg string) {
-    @BaseLayout(title, TransferContent(errMsg))
+templ TransferPage(title string, data map[string]any, errMsg string) {
+    @BaseLayout(title, data, TransferContent(errMsg))
 }

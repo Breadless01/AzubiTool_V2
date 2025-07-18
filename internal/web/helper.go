@@ -5,9 +5,12 @@ import (
 	"net/http"
 )
 
+const toastContextKey contextKey = "toast"
+const toastTypeContextKey contextKey = "toastType"
+
 func SetToast(r *http.Request, message, toastType string) context.Context {
-	ctx := context.WithValue(r.Context(), "toast", message)
-	ctx = context.WithValue(ctx, "toastType", toastType)
+	ctx := context.WithValue(r.Context(), toastContextKey, message)
+	ctx = context.WithValue(ctx, toastTypeContextKey, toastType)
 	return ctx
 }
 
@@ -33,7 +36,7 @@ func GetToastRedirect(w http.ResponseWriter, r *http.Request) context.Context {
 	if msg == "" {
 		return r.Context()
 	}
-	ctx := context.WithValue(r.Context(), "toast", msg)
-	ctx = context.WithValue(ctx, "toastType", ttype)
+	ctx := context.WithValue(r.Context(), toastContextKey, msg)
+	ctx = context.WithValue(ctx, toastTypeContextKey, ttype)
 	return r.WithContext(ctx).Context()
 }

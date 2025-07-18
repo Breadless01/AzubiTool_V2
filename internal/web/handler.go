@@ -5,25 +5,27 @@ import (
 	"AzubiTool/internal/ports"
 	"AzubiTool/internal/web/views"
 	"context"
-	"encoding/gob"
 	"net/http"
 	"strconv"
 )
 
-func init() {
-	gob.Register(&domain.User{})
-}
-
 type Handler struct {
 	AuthService ports.AuthService
 	BcsService  ports.BcsService
+	DbService   ports.DbService
 }
 
-func (h *Handler) LoginPage(w http.ResponseWriter, r *http.Request) {
+func GetCurrentUser(ctx context.Context) *domain.User {
+	user, _ := ctx.Value(userContextKey).(*domain.User)
+	return user
+}
+
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	ctx := GetToastRedirect(w, r)
 	if r.Method == http.MethodGet {
-		views.LoginPage(
+		views.Login(
 			"Login",
+			map[string]any{},
 			"",
 		).Render(ctx, w)
 		return
@@ -33,63 +35,51 @@ func (h *Handler) LoginPage(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		user, errUser := h.AuthService.Authenticate(username, password)
-		oid := 1234567890 //h.BcsService.GetOid(username, password)
-		sess, _ := SessionStore.Get(r, "session")
-		if errUser == nil {
+		user, err := h.AuthService.Authenticate(username, password)
+
+		if err == nil {
+			oid := 1234567890 //h.BcsService.GetOid(username, password)
 			user.Oid = strconv.Itoa(oid)
-			sess.Values["user"] = user
-			sess.Values["loggedIn"] = true
-			sess.Save(r, w)
+			setSession(*user, w, r)
 			SetToastRedirect(w, r, "Erfolgreich eingeloggt!", "success")
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return
 		}
 
-		sess.Values["loggedIn"] = false
-		sess.Save(r, w)
-
-		views.LoginPage(
+		views.Login(
 			"Login",
+			map[string]any{},
 			"Ungültiger Benutzername oder Passwort!").Render(r.Context(), w)
 		return
 	}
 }
 
 func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
-	sess, _ := SessionStore.Get(r, "session")
-	delete(sess.Values, "user")
-	sess.Save(r, w)
+	clearSession(w, r)
 	SetToastRedirect(w, r, "Erfolgreich ausgeloggt!", "success")
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (h *Handler) LandingPage(w http.ResponseWriter, r *http.Request) {
-	user := GetCurrentUser(r.Context())
-	ctx := context.WithValue(r.Context(), "user", user)
+	user, _ := getUser(r)
 
-	if user == nil {
-		SetToastRedirect(w, r, "Bitte zuerst einloggen!", "info")
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-		return
-	} else {
-		// ctx := GetToastRedirect(w, ctx)
-		views.LandingPage(
-			"AzubiTool",
-		).Render(ctx, w)
-		return
-	}
+	views.LandingPage(
+		"AzubiTool",
+		map[string]any{
+			"user": user,
+		},
+	).Render(r.Context(), w)
 }
 
-func (h *Handler) TransferPage(w http.ResponseWriter, r *http.Request) {
-	user := GetCurrentUser(r.Context())
-	ctx := context.WithValue(r.Context(), "user", user)
-	if user == nil {
-		SetToastRedirect(w, r, "Bitte zuerst einloggen!", "info")
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-		return
-	}
-	views.TransferPage(
-		"BCS -> Blok",
-		"").Render(ctx, w)
-}
+// func (h *Handler) TransferPage(w http.ResponseWriter, r *http.Request) {
+// 	user := GetCurrentUser(r.Context())
+// 	ctx := context.WithValue(r.Context(), "user", user)
+// 	if user == nil {
+// 		SetToastRedirect(w, r, "Bitte zuerst einloggen!", "info")
+// 		http.Redirect(w, r, "/login", http.StatusSeeOther)
+// 		return
+// 	}
+// 	views.TransferPage(
+// 		"BCS -> Blok",
+// 		"").Render(ctx, w)
+// }

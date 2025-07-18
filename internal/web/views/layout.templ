@@ -1,9 +1,10 @@
 // layout.templ
 package views
 
+
 import "AzubiTool/internal/domain"
 
-templ BaseLayout(title string, mainContent templ.Component) {
+templ BaseLayout(title string, data map[string]any, mainContent templ.Component) {
     <html lang="de">
         <head>
             <meta charset="UTF-8" />
@@ -42,12 +43,12 @@ templ BaseLayout(title string, mainContent templ.Component) {
                     <a href="#" class="nav-link">Kontakt</a>
                 </nav>
                 <div class="user">
-                    if u := ctx.Value("user"); u != nil {
+                    if u, ok := data["user"].(domain.User); ok {
                         <div class="nav-dropdown">
                             <button class="nav-link nav-dropdown-btn" tabindex="0">
                                 <span class="user-info">
-                                    <span class="user-name">{u.(*domain.User).DisplayName}</span>
-                                    <span class="user-role">{u.(*domain.User).Role}</span>
+                                    <span class="user-name">{u.DisplayName}</span>
+                                    <span class="user-role">{u.Role}</span>
                                 </span>
                                  ▾
                             </button>

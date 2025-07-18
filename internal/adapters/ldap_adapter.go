@@ -50,6 +50,7 @@ func (a *LdapAdapter) Authenticate(username, password string) (*domain.User, err
 
 	entry := sr.Entries[0]
 	return &domain.User{
+		LoggedIn:    true,
 		Username:    entry.GetAttributeValue("sAMAccountName"),
 		DisplayName: entry.GetAttributeValue("name"),
 		Email:       entry.GetAttributeValue("proxyAddresses"),

@@ -1,6 +1,6 @@
 // landing.templ
 package views
 
-templ LandingPage(title string) {
-    @BaseLayout(title, LandingContent())
+templ LandingPage(title string, data map[string]any) {
+    @BaseLayout(title, data, LandingContent(data))
 }

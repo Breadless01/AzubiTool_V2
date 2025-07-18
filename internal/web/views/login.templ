@@ -1,6 +1,6 @@
 // login.templ
 package views
 
-templ LoginPage(title string, errorMsg string) {
-    @BaseLayout(title, LoginFormContent(errorMsg))
+templ Login(title string, data map[string]any, errorMsg string) {
+    @BaseLayout(title, data, LoginFormContent(errorMsg))
 }
