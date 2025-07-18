@@ -56,8 +56,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
 	clearSession(w, r)
-	SetToastRedirect(w, r, "Erfolgreich ausgeloggt!", "success")
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func (h *Handler) LandingPage(w http.ResponseWriter, r *http.Request) {

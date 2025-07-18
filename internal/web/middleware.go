@@ -17,7 +17,7 @@ var hashKey = securecookie.GenerateRandomKey(32)
 var store = sessions.NewCookieStore(hashKey)
 
 func setSession(user domain.User, w http.ResponseWriter, r *http.Request) {
-	session, err := store.Get(r, "test")
+	session, err := store.Get(r, "azubi_session")
 	if err != nil {
 		print("Error getting session:", err)
 	}
@@ -26,7 +26,7 @@ func setSession(user domain.User, w http.ResponseWriter, r *http.Request) {
 }
 
 func getUser(r *http.Request) (user domain.User, ok bool) {
-	session, err := store.Get(r, "test")
+	session, err := store.Get(r, "azubi_session")
 	if err != nil {
 		print("Error getting session:", err)
 	}
@@ -40,7 +40,7 @@ func getUser(r *http.Request) (user domain.User, ok bool) {
 }
 
 func clearSession(w http.ResponseWriter, r *http.Request) {
-	session, _ := store.Get(r, "session")
+	session, _ := store.Get(r, "azubi_session")
 	session.Options.MaxAge = -1 // Session invalidieren
 	session.Save(r, w)
 }
