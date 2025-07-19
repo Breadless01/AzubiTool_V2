@@ -6,7 +6,6 @@ import (
 	"AzubiTool/internal/web/views"
 	"context"
 	"net/http"
-	"strconv"
 )
 
 type Handler struct {
@@ -38,8 +37,8 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		user, err := h.AuthService.Authenticate(username, password)
 
 		if err == nil {
-			oid := 1234567890 //h.BcsService.GetOid(username, password)
-			user.Oid = strconv.Itoa(oid)
+			oid, _ := h.BcsService.GetOid(username, password)
+			user.Oid = oid
 			setSession(*user, w, r)
 			SetToastRedirect(w, r, "Erfolgreich eingeloggt!", "success")
 			http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -70,15 +69,13 @@ func (h *Handler) LandingPage(w http.ResponseWriter, r *http.Request) {
 	).Render(r.Context(), w)
 }
 
-// func (h *Handler) TransferPage(w http.ResponseWriter, r *http.Request) {
-// 	user := GetCurrentUser(r.Context())
-// 	ctx := context.WithValue(r.Context(), "user", user)
-// 	if user == nil {
-// 		SetToastRedirect(w, r, "Bitte zuerst einloggen!", "info")
-// 		http.Redirect(w, r, "/login", http.StatusSeeOther)
-// 		return
-// 	}
-// 	views.TransferPage(
-// 		"BCS -> Blok",
-// 		"").Render(ctx, w)
-// }
+func (h *Handler) TransferPage(w http.ResponseWriter, r *http.Request) {
+	user, _ := getUser(r)
+
+	views.TransferPage(
+		"BCS -> Blok",
+		map[string]any{
+			"user": user,
+		},
+	).Render(r.Context(), w)
+}

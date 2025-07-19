@@ -48,7 +48,7 @@ func main() {
 		cfg.LDAP_USER_LOGIN_ATTR,
 	)
 
-	bcsApi := adapters.NewBcsAdapter(cfg.BCS_ENDPOINT_URL)
+	bcsApi := adapters.NewBcsAdapter(cfg.BCS_ENDPOINT_URL, true)
 
 	db := adapters.NewPostgresAdapter(conn, connData)
 	db.Initialize()

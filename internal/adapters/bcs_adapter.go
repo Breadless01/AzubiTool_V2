@@ -1,6 +1,7 @@
 package adapters
 
 import (
+	"AzubiTool/internal/adapters/mocks"
 	"AzubiTool/internal/domain"
 	"bytes"
 	"encoding/xml"
@@ -13,11 +14,12 @@ import (
 )
 
 type BcsAdapter struct {
+	testing     bool
 	EndpointURL string
 }
 
-func NewBcsAdapter(endpointURL string) *BcsAdapter {
-	return &BcsAdapter{EndpointURL: endpointURL}
+func NewBcsAdapter(endpointURL string, testing bool) *BcsAdapter {
+	return &BcsAdapter{EndpointURL: endpointURL, testing: testing}
 }
 
 const payloadTmpl = `<?xml version="1.0" encoding="UTF-8"?>
@@ -83,11 +85,17 @@ func (b *BcsAdapter) GetOid(username, password string) (string, error) {
 	req.Header.Set("Content-Type", "application/soap+xml;charset=UTF-8")
 
 	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
+	if err != nil && !b.testing {
 		return "", err
 	}
 	defer resp.Body.Close()
-	body, _ := io.ReadAll(resp.Body)
+
+	body := make([]byte, 0)
+	if !b.testing {
+		body, _ = io.ReadAll(resp.Body)
+	} else {
+		body = []byte(mocks.OID_response)
+	}
 
 	if resp.StatusCode != 200 {
 		print("body: ", string(body))

@@ -3,14 +3,11 @@ package views
 
 import "AzubiTool/internal/domain"
 
-templ TransferContent(errMsg string) {
+templ TransferContent(data map[string]any) {
     <div class="main-wrapper">
         <h1>BCS -> Blok</h1>
-        if errMsg != "" {
-            <div class="error-msg">{errMsg}</div>
-        } 
-        else {
-            {ctx.Value("user").(*domain.User).Oid}
+        if u, ok := data["user"].(domain.User); ok {
+            {u.Oid}
         }
     </div>
 }
