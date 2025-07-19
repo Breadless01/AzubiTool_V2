@@ -40,6 +40,8 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 			oid, _ := h.BcsService.GetOid(username, password)
 			user.Oid = oid
 			setSession(*user, w, r)
+			err = h.DbService.SetUser(user)
+			println(err)
 			SetToastRedirect(w, r, "Erfolgreich eingeloggt!", "success")
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return

@@ -51,7 +51,7 @@ func main() {
 	bcsApi := adapters.NewBcsAdapter(cfg.BCS_ENDPOINT_URL, true)
 
 	db := adapters.NewPostgresAdapter(conn, connData)
-	db.Initialize()
+	db = db.Initialize()
 
 	web.InitSessionStore()
 	handler := &web.Handler{

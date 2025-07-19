@@ -20,7 +20,7 @@ func NewPostgresAdapter(conn *pgx.Conn, dbData map[string]any) *PostgresAdapter 
 	return &PostgresAdapter{conn: conn, dbData: dbData}
 }
 
-func (r *PostgresAdapter) Initialize() error {
+func (r *PostgresAdapter) Initialize() *PostgresAdapter {
 	if targetDB := r.dbData["dbName"]; targetDB != "" {
 		// Check if the database exists, if not create it
 		adminConn := r.dbData["adminDB"].(*pgx.Conn)
@@ -45,7 +45,6 @@ func (r *PostgresAdapter) Initialize() error {
 		if err != nil {
 			log.Fatalf("Verbindung zur Ziel-DB fehlgeschlagen: %v", err)
 		}
-		defer userConn.Close(context.Background())
 
 		// Create the users table if it doesn't exist
 		createUserTableSQL := `
@@ -54,21 +53,26 @@ func (r *PostgresAdapter) Initialize() error {
 				username TEXT UNIQUE NOT NULL,
 				display_name TEXT,
 				email TEXT,
-				role TEXT
+				role TEXT,
+				oid TEXT
 			);`
 
 		_, err = userConn.Exec(context.Background(), createUserTableSQL)
 		if err != nil {
 			log.Fatalf("Fehler beim Anlegen der User Tabelle: %v", err)
 		}
-		log.Printf("Tabelle 'users' ist bereit!")
-		r.conn = userConn // Update the connection to the target database
 
-		return err
+		log.Printf("Tabelle 'users' ist bereit!")
+		new_r := &PostgresAdapter{
+			conn:   userConn,
+			dbData: r.dbData,
+		}
+		r.conn = userConn // Update the connection to the target database
+		return new_r
 	}
 
 	log.Println("Keine Ziel-Datenbank angegeben, Initialisierung übersprungen.")
-	return nil
+	return r
 
 }
 
@@ -84,12 +88,16 @@ func (r *PostgresAdapter) GetUserByUsername(username string) (*domain.User, erro
 }
 
 func (r *PostgresAdapter) SetUser(user *domain.User) error {
+	println("Setting user in Postgres:", user.Username)
 	_, err := r.conn.Exec(context.Background(),
-		`INSERT INTO users (username, display_name, email, role)
-         VALUES ($1, $2, $3, $4)
+		`INSERT INTO users (username, display_name, email, role, oid)
+         VALUES ($1, $2, $3, $4, $5)
          ON CONFLICT (username) DO UPDATE
-         SET display_name=$2, email=$3, role=$4`,
-		user.Username, user.DisplayName, user.Email, user.Role,
+         SET display_name=$2, email=$3, role=$4 , oid=$5`,
+		user.Username, user.DisplayName, user.Email, user.Role, user.Oid,
 	)
+	if err != nil {
+		log.Printf("Fehler beim Setzen des Benutzers: %v", err)
+	}
 	return err
 }

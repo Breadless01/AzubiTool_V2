@@ -75,8 +75,6 @@ func (b *BcsAdapter) GetOid(username, password string) (string, error) {
 	soapAction := fmt.Sprintf("http://www.dotsource.de/AzubiBcsToBlokService/%sRequest", getUserOidName)
 	payload := fmt.Sprintf(payloadTmpl, username, password, actionData)
 
-	println(payload)
-
 	req, err := http.NewRequest("POST", b.EndpointURL, strings.NewReader(payload))
 	if err != nil {
 		return "", err
